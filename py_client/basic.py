@@ -4,11 +4,11 @@ import requests
 
 # endpoint = "https://httpbin.org/anything"
 
-endpoint = "http://localhost:8000/product"
+endpoint = "http://127.0.0.1:8000/product"
 
 # requests.get() 
 
-get_response = requests.get(endpoint, params={"abc":123}, json={"query":"Hello world"}) # HTTP request
+get_response = (requests.get(endpoint, json={"query":"Hello world"})) # HTTP request
 
 print(get_response.json()) # print raw text response 
 
