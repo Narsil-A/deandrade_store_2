@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import Category, Product
 
-# to retrive json data
+"""
+Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes
 
-
+"""
 class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:

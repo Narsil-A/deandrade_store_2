@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 
-from . import views 
+from . import views
+
+
 
 urlpatterns = [
-   path('', views.product_detail_view),
+    path('', views.api_home), # localhost:8000/api/
+    # path('products/', include('products.urls'))
 ]

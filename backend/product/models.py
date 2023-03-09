@@ -29,7 +29,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=15, decimal_places=2, default=99.99)
     image = models.ImageField(upload_to='uploads/', blank=True)        
     thumbnail = models.ImageField(upload_to='uploads/', blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
@@ -79,3 +79,7 @@ class Product(models.Model):
         thumbnail = File(thumb_io, name=image.name)
         
         return 
+
+    @property   # property for sales price 
+    def sales_price(self):
+        return "%.2f" %(float(self.price) * 0.9)
