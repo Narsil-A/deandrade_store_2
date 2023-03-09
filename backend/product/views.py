@@ -1,16 +1,15 @@
-from django.http import JsonResponse
-from django.forms.models import model_to_dict
-from product.models import Product
+from rest_framework import generics
 
 
-def api_home(request, *args, **kwargs):
+from .models import Product
+from .serializers import ProductSerializer
 
-    model_data = Product.objects.all().order_by("?").first()
 
-    data = {}
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # lookup_field = 'pk' ??
 
-    if model_data:
-        data = model_to_dict(model_data, fields=['id','category', 'name', 'price'])
-    return JsonResponse(data)
+product_detail_view = ProductDetailAPIView.as_view()
 
 
