@@ -42,7 +42,7 @@ class Product(models.Model):
 
         return self.name   # returns a string representation of any object
     
-    def get_absolute_url(self):
+    """def get_absolute_url(self):
 
         return f'/{self.category.slug}/{self.slug}/' # to get the url of each product
     
@@ -78,7 +78,7 @@ class Product(models.Model):
         img.save(thumb_io, 'JPEG', quality=85)
         thumbnail = File(thumb_io, name=image.name)
         
-        return 
+        return"""
 
     @property   # property for sales price 
     def sales_price(self):
