@@ -11,14 +11,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
         model = Product
         fields = ( 
-            "id",
             "name",
-            #"get_absolute_url",
             "description",
-            "price",
-            #"get_image",
-            #"get_thumbnail"
-            "sales_price"
+            "price", 
         )
         
 class CategorySerializer(serializers.ModelSerializer):

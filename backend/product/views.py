@@ -5,7 +5,17 @@ from .models import Product
 from .serializers import ProductSerializer
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+
+class ProductCreateAPIView(generics.CreateAPIView): # post method
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+
+product_create_view = ProductCreateAPIView.as_view()
+
+class ProductDetailAPIView(generics.RetrieveAPIView): # get method
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # lookup_field = 'pk' primary key
