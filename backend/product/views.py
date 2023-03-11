@@ -30,7 +30,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView): # get method
 product_detail_view = ProductDetailAPIView.as_view()
 class CategoryDetailAPIView(generics.CreateAPIView):
 
-    def get_object(self, category_slug):
+    def perform_create(self, serializer):
         try:
             return Category.objects.get(slug=category_slug)
         except Product.DoesNotExist:
