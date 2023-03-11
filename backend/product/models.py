@@ -42,10 +42,10 @@ class Product(models.Model):
 
         return self.name   # returns a string representation of any object
     
-    """def get_absolute_url(self):
+    def get_absolute_url(self):
 
         return f'/{self.category.slug}/{self.slug}/' # to get the url of each product
-    
+    """
     def get_image(self):
 
         if self.image:
