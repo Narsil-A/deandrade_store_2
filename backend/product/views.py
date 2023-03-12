@@ -10,7 +10,13 @@ from .serializers import ProductSerializer, CategorySerializer
 
 
 
-class ProductCreateAPIView(generics.CreateAPIView): # post method create product objects
+class ProductListCreateAPIView(generics.ListCreateAPIView): 
+    """
+    CreateAPIView and ListCreateAPIView are slightly different
+    ListCreateAPIView: Used for read-write endpoints to represent a collection of model instances
+                       Provides get and post method handlers
+                       Extends: GenericAPIView, ListModelMixin, CreateModelMixin
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -23,12 +29,21 @@ class ProductCreateAPIView(generics.CreateAPIView): # post method create product
         serializer.save(description=description)
         
 
-product_create_view = ProductCreateAPIView.as_view()
-class ProductDetailAPIView(generics.RetrieveAPIView): # get method
+product_list_create_view = ProductListCreateAPIView.as_view()
+class ProductDetailAPIView(generics.RetrieveAPIView): 
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    
+
+product_detail_view = ProductDetailAPIView.as_view()
+
+"""
+class ProductListAPIView(generics.ListAPIView): # get method
+    
+    # not gonna use this method 
+    
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # lookup_field = 'pk' primary key
 
-product_detail_view = ProductDetailAPIView.as_view()
-
-
+product_list_view = ProductListAPIView.as_view() """ 

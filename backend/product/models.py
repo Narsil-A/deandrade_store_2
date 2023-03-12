@@ -45,7 +45,7 @@ class Product(models.Model):
     def get_absolute_url(self):
 
         return f'/{self.category.slug}/{self.slug}/' # to get the url of each product
-    """
+
     def get_image(self):
 
         if self.image:
@@ -78,7 +78,7 @@ class Product(models.Model):
         img.save(thumb_io, 'JPEG', quality=85)
         thumbnail = File(thumb_io, name=image.name)
         
-        return"""
+        return
 
     @property   # property for sales price 
     def sales_price(self):
