@@ -47,3 +47,45 @@ class ProductListAPIView(generics.ListAPIView): # get method
     # lookup_field = 'pk' primary key
 
 product_list_view = ProductListAPIView.as_view() """ 
+
+
+
+class ProductUpdateAPIView(generics.UpdateAPIView):
+
+    """
+    UPDATE  method 
+    Used for update-only endpoints for a single model instance.
+    Provides put and patch method handlers.
+    Extends: GenericAPIView, UpdateModelMixin
+    """
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if not instance.description:
+            instance.description = instance.name
+           
+
+product_update_view = ProductUpdateAPIView.as_view()
+
+
+class ProductDestroyAPIView(generics.DestroyAPIView):
+    """
+    Used for delete-only endpoints for a single model instance.
+
+    Provides a delete method handler.
+
+    Extends: GenericAPIView, DestroyModelMixin
+    """
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def perform_destroy(self, instance):
+        # instance 
+        super().perform_destroy(instance)
+
+product_destroy_view = ProductDestroyAPIView.as_view()
