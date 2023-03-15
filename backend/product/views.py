@@ -55,7 +55,7 @@ class ProductMixinView(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
-    generics.APIView
+    generics.GenericAPIView
 ):
     # Get method
     queryset = Product.objects.all()
@@ -63,6 +63,7 @@ class ProductMixinView(
     lookup_field = 'pk'
 
     def get(self, request, *args, **kwargs): # HTTP --> get
+        print(args, kwargs) 
         pk = kwargs.get('pk')
 
         if pk is not None:
@@ -76,8 +77,11 @@ class ProductMixinView(
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
         title = serializer.validated_data.get('title')
-        content = serializer.validated_data.get('content') or None
-        if content is None:
-            content = "this is a single view doing cool stuff"
-        serializer.save(content=content)
+        description = serializer.validated_data.get('description') or None
+        if description is None:
+            description = "this is a single view doing cool stuff"
+        serializer.save(description=description)
 
+    # def post(): #HTTP -> post
+
+product_mixin_view = ProductMixinView.as_view()
