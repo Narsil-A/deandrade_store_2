@@ -1,7 +1,7 @@
 import requests
 
 # for testing endpoint class ProductDetailAPIView(generics.RetrieveAPIView)
-endpoint = "http://localhost:8000/product/5/" 
+endpoint = "http://localhost:8000/product/2/" 
 
 # pk = > 4 not exist 
 
