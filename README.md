@@ -18,4 +18,4 @@ the client its going to be a way to use python to interact with your rest apiº
 
 REST API HTTP Requests -> JSON ### JavaScript Object Nototion -> Python dict
 
-when in git log, press q to exit
+when in git log, press q to exits 
