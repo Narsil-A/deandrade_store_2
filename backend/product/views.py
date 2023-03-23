@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from .mixins import StaffEditorPermissionMixin
 
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
@@ -52,6 +53,7 @@ product_list_view = ProductListAPIView.as_view() """
 # Update and Destroy method 
 
 class ProductMixinView(
+    StaffEditorPermissionMixin,
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
