@@ -1,21 +1,30 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
+
 from .models import Category, Product
+
 
 """
 Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes
 
 """
 class ProductSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
 
         model = Product
-        fields = ( 
+        fields = (
+            'url',
+            "pk",
             "name",
             "description",
             "price", 
         )
-        
+
+    def get_url(self, obj):
+        return f"/api/v2/product-v2/{obj.pk}/"
+
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
     

@@ -12,7 +12,8 @@ from .serializers import ProductSerializer, CategorySerializer
 
 
 
-class ProductListCreateAPIView(generics.ListCreateAPIView): 
+class ProductListCreateAPIView(generics.ListCreateAPIView,
+                               StaffEditorPermissionMixin): 
     """
     CreateAPIView and ListCreateAPIView are slightly different
     ListCreateAPIView: Used for read-write endpoints to represent a collection of model instances

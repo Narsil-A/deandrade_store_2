@@ -3,7 +3,7 @@ from getpass import getpass
 
 
 
-auth_endpoint = "http://localhost:8000/product/auth/"
+auth_endpoint = "http://localhost:8000/product/v2/auth"
 
 username = input("What is your username?\n")
 password = getpass("What is your password ?\n")
