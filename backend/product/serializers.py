@@ -23,7 +23,11 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
     def get_url(self, obj):
-        return f"/api/v2/product-v2/{obj.pk}/"
+        # return f"/api/v2/product-v2/{obj.pk}/"
+        request = self.context.get('request') # self.request
+        if request is None:
+            return None
+        return reverse("Product-detail", kwargs={"pk":obj.pk}, request=request)
 
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
