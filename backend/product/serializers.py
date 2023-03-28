@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.reverse import reverse
+from rest_framework.reverse import reverse 
 
 from .models import Category, Product
 
@@ -9,8 +9,10 @@ Serializers allow complex data such as querysets and model instances to be conve
 
 """
 class ProductSerializer(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField(read_only=True)
-
+    url = serializers.HyperlinkedIdentityField(
+            view_name='product-detail',
+            lookup_field='pk'
+    )
     class Meta:
 
         model = Product
@@ -27,8 +29,8 @@ class ProductSerializer(serializers.ModelSerializer):
         request = self.context.get('request') # self.request
         if request is None:
             return None
-        return reverse("Product-detail", kwargs={"pk":obj.pk}, request=request)
-
+        return reverse("Product-detail", kwargs={"pk":obj.pk}, request=request) # returns a fully qualified URL, 
+                                                                                # using the request to determine the host and port.
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
     
