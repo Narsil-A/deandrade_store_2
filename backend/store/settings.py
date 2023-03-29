@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # internal apps
     'product',  # api product
+    'order',
     
 
 ]
