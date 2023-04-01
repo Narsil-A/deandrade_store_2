@@ -31,7 +31,7 @@ def checkout(request):
             charge = stripe.Charge.create(
                 amount=int(paid_amount * 100), 
                 currency='USD', 
-                description='Charge from PetStore', 
+                description='Charge from Deandradestore', 
                 source=serializer.validated_data['stripe_token']  
             )
 
@@ -42,3 +42,12 @@ def checkout(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class OrdersList(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        orders = Order.objects.filter(user=request.user)
+        serializer = MyOrderSerializer(orders, many=True)
+        return Response(serializer.data)
