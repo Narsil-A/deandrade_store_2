@@ -23,10 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+STRIPE_SECRET_KEY = 'sk_test_51LD9B4Hg5MZzC85xuF8GZjWf2cBnETEGqfLH7M5DMGTP74TmV0Z3psIfSVnlp8VPSC2V2SAuWq4bE1ZTVY7SRM3g00HvcTyfkA'
 
 
 # Application definition
