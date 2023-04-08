@@ -62,8 +62,7 @@ product_list_view = ProductListAPIView.as_view() """
 
 
 
-class ProductUpdateAPIView(generics.UpdateAPIView,
-                        StaffEditorPermissionMixin):
+class ProductUpdateAPIView(generics.UpdateAPIView):
 
     """
     UPDATE  method 
@@ -73,7 +72,13 @@ class ProductUpdateAPIView(generics.UpdateAPIView,
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [
+        authentication.SessionAuthentication,
+        TokenAuthentication
+    ]
+    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     lookup_field = 'pk'
+
 
     def perform_update(self, serializer):
         instance = serializer.save()

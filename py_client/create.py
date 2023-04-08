@@ -15,7 +15,7 @@ print(auth_reponse.json())
 if auth_reponse.status_code == 200:
     token = auth_reponse.json()['token']
     headers = {
-        "authorization": f"Token {token}"
+        "authorization": f"Bearer {token}"
     }
     endpoint = "http://localhost:8000/product/"
 
