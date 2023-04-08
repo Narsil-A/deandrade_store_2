@@ -20,10 +20,17 @@ if auth_reponse.status_code == 200:
     endpoint = "http://localhost:8000/order/checkout/"
 
 data = {
-    "price":24,
-    "product": "skin creme",
-    "quantity":2,
-}
+        "id":1,
+        "first_name":"Andrea",
+        "last_name":"Camargo",
+        "email":"andrea@django.com",
+        "address":"san antonio",
+        "zipcode":"2010",
+        "place":"Caracas",
+        "phone":"04241170505",
+        "stripe_token":'',
+        "items":'',
+    }
 get_response = requests.post(endpoint, json=data)
 print(get_response.json())
 

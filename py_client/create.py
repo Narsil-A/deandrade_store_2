@@ -1,15 +1,37 @@
 import requests
+from getpass import getpass 
 
-headers = {'Authorization': 'Bearer a4ab5f80e4608500a5720d8f0c0de663432ec06b'}
 
 
-endpoint = "http://localhost:8000/product/" 
+auth_endpoint = "http://localhost:8000/product/auth/"
+
+username = input("What is your username?\n")
+password = getpass("What is your password ?\n")
+
+auth_reponse = requests.post(auth_endpoint, json={'username':username, 'password':password})
+
+print(auth_reponse.json())
+
+if auth_reponse.status_code == 200:
+    token = auth_reponse.json()['token']
+    headers = {
+        "authorization": f"Token {token}"
+    }
+    endpoint = "http://localhost:8000/product/"
 
 data = {
-    "name":"nedwh1",
-    "description": "newhas2",
-    "price":23,
-}
+        "url":'', 
+        "pk":'',
+        "name":"Labial",
+        "get_absolute_url":'',
+        "description":"Labial mate",
+        "price":5,
+        "get_image":'',
+        "get_thumbnail":''
+    }
 get_response = requests.post(endpoint, json=data)
 print(get_response.json())
+
+
+
 

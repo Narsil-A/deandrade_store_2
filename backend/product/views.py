@@ -1,4 +1,4 @@
-from rest_framework import authentication, generics, permissions
+from rest_framework import authentication, generics, permissions, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -7,13 +7,15 @@ from django.shortcuts import get_object_or_404
 from .authentication import TokenAuthentication
 
 from .models import Product
+from .mixins import StaffEditorPermissionMixin
 from .permissions import IsStaffEditorPermission
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer
 
 
 
 
-class ProductListCreateAPIView(generics.ListCreateAPIView): 
+class ProductListCreateAPIView(generics.ListCreateAPIView,
+                               StaffEditorPermissionMixin): 
     """
     CreateAPIView and ListCreateAPIView are slightly different
     ListCreateAPIView: Used for read-write endpoints to represent a collection of model instances
@@ -39,7 +41,8 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         
 
 product_list_create_view = ProductListCreateAPIView.as_view()
-class ProductDetailAPIView(generics.RetrieveAPIView): 
+class ProductDetailAPIView(generics.RetrieveAPIView,
+                           StaffEditorPermissionMixin): 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
@@ -59,7 +62,8 @@ product_list_view = ProductListAPIView.as_view() """
 
 
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(generics.UpdateAPIView,
+                        StaffEditorPermissionMixin):
 
     """
     UPDATE  method 
@@ -80,7 +84,8 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
 product_update_view = ProductUpdateAPIView.as_view()
 
 
-class ProductDestroyAPIView(generics.DestroyAPIView):
+class ProductDestroyAPIView(generics.DestroyAPIView,
+                            StaffEditorPermissionMixin):
     """
     Used for delete-only endpoints for a single model instance.
 
