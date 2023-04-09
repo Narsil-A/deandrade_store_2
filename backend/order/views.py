@@ -8,23 +8,18 @@ from django.http import Http404
 from django.shortcuts import render 
 
 # DRF
-from rest_framework import status, authentication, permissions
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 # api models and serializers 
-from product.authentication import TokenAuthentication
-from product.permissions import IsStaffEditorPermission
-from .models import Order, OrderItem
+from product.mixins import StaffEditorPermissionMixin
+from .models import Order
 from .serializers import OrderSerializer, MyOrderSerializer
 
 @api_view(['POST'])   
 def checkout(request):
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
     serializer = OrderSerializer(data=request.data)
 
     if serializer.is_valid(): 
@@ -47,16 +42,12 @@ def checkout(request):
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class OrdersList(APIView):
+class OrdersList(
+    StaffEditorPermissionMixin,
+    APIView):
 
     queryset = Order.objects.all()
     serializer_class = MyOrderSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    # 
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
     def get(self, request, format=None):
         orders = Order.objects.filter(user=request.user)
