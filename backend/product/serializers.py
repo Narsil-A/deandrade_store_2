@@ -18,11 +18,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "url", 
             "pk",
             "name",
-            "get_absolute_url",
+            #"get_absolute_url",
             "description",
             "price",
-            "get_image",
-            "get_thumbnail"
+            #"get_image",
+            #"get_thumbnail"
         )
         
 class CategorySerializer(serializers.ModelSerializer):

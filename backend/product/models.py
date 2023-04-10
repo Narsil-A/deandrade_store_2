@@ -24,7 +24,6 @@ class Category(models.Model):
         return f'/{self.slug}/' # get the url for the object, address version of url for the produc
                                 
 class Product(models.Model):
-
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE) # Cascade deletes. Django emulates the behavior of the SQL constraint ON DELETE CASCADE and also deletes the object containing the ForeignKey.
     name = models.CharField(max_length=255)
     slug = models.SlugField()
