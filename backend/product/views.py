@@ -8,39 +8,35 @@ from django.shortcuts import get_object_or_404
 from .authentication import TokenAuthentication
 from .models import Product
 from .permissions import IsStaffEditorPermission
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer
 
 
 
-
-class CategoryListCreateAPIView(
+class ProductListCreateAPIView(
     generics.ListCreateAPIView): 
     """
-    CreateAPIView and ListCreateAPIView are slightly different
-    ListCreateAPIView: Used for read-write endpoints to represent a collection of model instances
-                       Provides get and post method handlers
-                       Extends: GenericAPIView, ListModelMixin, CreateModelMixin
+    create and retrive the product list 
     """
     queryset = Product.objects.all()
-    serializer_class = CategorySerializer
-
+    serializer_class = ProductSerializer
+    
     authentication_classes = [
         authentication.SessionAuthentication,
         TokenAuthentication
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
-
     def perform_create(self, serializer):
         name = serializer.validated_data.get('name')
-        get_absolute_url = serializer.validated_data.get('get_absolute_url') or None
+        description = serializer.validated_data.get('description') or None
         
-        if get_absolute_url is None:
-            get_absolute_url = name
-        serializer.save(get_absolute_url=get_absolute_url)
+        if description is None:
+            description = name
+        serializer.save(user=self.request.user, description=description)
         
 
-category_list_create_view = CategoryListCreateAPIView.as_view()
+product_list_create_view = ProductListCreateAPIView.as_view()
+
 class ProductDetailAPIView(generics.RetrieveAPIView,
                            ): 
     queryset = Product.objects.all()
@@ -71,10 +67,8 @@ product_list_view = ProductListAPIView.as_view() """
 class ProductUpdateAPIView(generics.UpdateAPIView):
 
     """
-    UPDATE  method 
-    Used for update-only endpoints for a single model instance.
-    Provides put and patch method handlers.
-    Extends: GenericAPIView, UpdateModelMixin
+    To update items product
+
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -99,11 +93,8 @@ product_update_view = ProductUpdateAPIView.as_view()
 class ProductDestroyAPIView(generics.DestroyAPIView,
                             ):
     """
-    Used for delete-only endpoints for a single model instance.
+    Product delete item
 
-    Provides a delete method handler.
-
-    Extends: GenericAPIView, DestroyModelMixin
     """
 
     queryset = Product.objects.all()

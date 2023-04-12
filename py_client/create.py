@@ -26,8 +26,6 @@ data = {
         "get_absolute_url":'',
         "description":"Labial mate",
         "price":5,
-        "get_image":'',
-        "get_thumbnail":''
     }
 get_response = requests.post(endpoint, json=data)
 print(get_response.json())
