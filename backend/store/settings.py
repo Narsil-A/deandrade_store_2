@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # internal apps
-    'product',  # api product
-    'order', # api user 
+    'product',  # api where will create the products and categorys
+    'order', # api where the user creates the order of the products
     
 
 ]

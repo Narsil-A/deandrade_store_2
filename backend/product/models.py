@@ -10,7 +10,7 @@ Class for category products where each product has its thumbnail image field, sl
 class Category(models.Model):
 
     name = models.CharField(max_length=255) # name of products
-    slug = models.SlugField() # address version of the name
+    slug = models.SlugField(blank=True) # address version of the name
 
 
     class Meta:
@@ -42,9 +42,9 @@ class Product(models.Model):
 
         return self.name   # returns a string representation of any object
     
-    def get_absolute_url(self):
+    # def get_absolute_url(self):
 
-        return f'/{self.category.slug}/{self.slug}/' # to get the url of each product
+    #     return f'/{self.category.slug}/{self.slug}/' # to get the url of each product
 
     def get_image(self):
 

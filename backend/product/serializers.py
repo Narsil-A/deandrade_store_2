@@ -18,15 +18,16 @@ class ProductSerializer(serializers.ModelSerializer):
             "url", 
             "pk",
             "name",
-            "get_absolute_url",
+            #"get_absolute_url",
             "description",
             "price",
             "get_image",
-            "get_thumbnail"
+            "get_thumbnail",
+            "date_added" 
         )
         
 class CategorySerializer(serializers.ModelSerializer):
-    products = ProductSerializer
+    products = ProductSerializer(many=True)
     
     class Meta:
         
@@ -34,6 +35,18 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ( 
             "id",
             "name",
+            "slug",
             "get_absolute_url",
-            "products",
+        )
+
+class CreateCategorySerializer(serializers.ModelSerializer):
+    categorys = CategorySerializer(many=True)
+    class Meta:
+        
+        model = Category
+        fields = ( 
+            "id",
+            "name",
+            "slug",
+            "get_absolute_url",
         )
