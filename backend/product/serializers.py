@@ -15,38 +15,56 @@ class ProductSerializer(serializers.ModelSerializer):
 
         model = Product
         fields = (
+            "category",
             "url", 
             "pk",
             "name",
-            #"get_absolute_url",
             "description",
             "price",
             "get_image",
             "get_thumbnail",
-            "date_added" 
-        )
-        
-class CategorySerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True)
-    
-    class Meta:
-        
-        model = Category
-        fields = ( 
-            "id",
-            "name",
-            "slug",
-            "get_absolute_url",
+            "date_added",
         )
 
-class CreateCategorySerializer(serializers.ModelSerializer):
-    categorys = CategorySerializer(many=True)
-    class Meta:
+# class CategorySerializer(serializers.ModelSerializer):
+    
+#     products = ProductSerializer(serializers.PrimaryKeyRelatedField(
+#     many=True, queryset=Product.objects.all())
+# )
+            
+#     def create(self, validated_data):
+#         products_data = validated_data.pop('products')
+#         category = Category.objects.create(**validated_data)
+#         Product.objects.create(category=category, **products_data)
+#         return Category
+
+#     def to_representation(self, category):
+#         representation = super(CategorySerializer, self).to_representation(category)
+#         representation['products'] = ProductSerializer(category.product_set.all(), many=True).data
+#         return representation
+#     class Meta:
         
+#         model = Category
+#         fields = [
+#             "name",
+#             "slug",
+#             ]
+
+class CategorySerializer(serializers.ModelSerializer):
+    
+    products = ProductSerializer(many=True)
+
+    class Meta:
         model = Category
-        fields = ( 
-            "id",
+        fields = [
             "name",
             "slug",
-            "get_absolute_url",
-        )
+        ]
+    
+    def create(self, validated_data):
+        products_data = validated_data.pop('products')
+        category = Category.objects.all().create(**validated_data)
+        
+        for product_data in products_data:
+            Product.objects.create(category=category, **product_data)
+        return category

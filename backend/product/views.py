@@ -11,7 +11,7 @@ from django.http import Http404
 from .authentication import TokenAuthentication
 from .permissions import IsStaffEditorPermission
 from .models import Product, Category
-from .serializers import ProductSerializer, CreateCategorySerializer
+from .serializers import ProductSerializer, CategorySerializer
 
 
 
@@ -34,7 +34,7 @@ class ProductListCreateAPIView(
         description = serializer.validated_data.get('description') or None
         
         if description is None:
-            description = name
+            description = name    
         serializer.save(user=self.request.user, description=description)
 
 product_list_create_view = ProductListCreateAPIView.as_view()
@@ -120,7 +120,7 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
     create and retrive the category list 
     """
     queryset = Category.objects.all()
-    serializer_class = CreateCategorySerializer
+    serializer_class = CategorySerializer
     
     authentication_classes = [
         authentication.SessionAuthentication,
@@ -133,8 +133,8 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
         slug = serializer.validated_data.get('slug') or None
         
         if slug is None:
-            slug = name
-        serializer.save(user=self.request.user, slug=slug)
+            slug = name 
+        serializer.save(user=self.request.user)
 
 category_list_create_view = CategoryListCreateAPIView.as_view()
 
