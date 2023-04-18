@@ -14,6 +14,19 @@ from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
 
+class LatestProductListAPIView(
+    generics.ListAPIView):
+
+    queryset = Product.objects.all()[0:4] 
+    serializer_class = ProductSerializer(many= True)
+
+    authentication_classes = [
+        authentication.SessionAuthentication,
+        TokenAuthentication
+    ]
+    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+    
+    latest_product_list_view = LatestProductListAPIView.as_view()
 
 class ProductListCreateAPIView(
     generics.ListCreateAPIView): 

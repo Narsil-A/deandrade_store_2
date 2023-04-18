@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.reverse import reverse 
+from rest_framework.reverse import reverse
 from .models import Category, Product
 
 """
@@ -16,7 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = (
             "category",
-            "url", 
+            "url",
             "pk",
             "name",
             "description",
@@ -27,44 +27,42 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
 # class CategorySerializer(serializers.ModelSerializer):
-    
+
 #     products = ProductSerializer(serializers.PrimaryKeyRelatedField(
 #     many=True, queryset=Product.objects.all())
 # )
-            
+#     class Meta:
+
+#         model = Category
+#         fields = [
+#             "name",
+#             "slug",
+#             "products"
+#             ]
+
 #     def create(self, validated_data):
 #         products_data = validated_data.pop('products')
 #         category = Category.objects.create(**validated_data)
 #         Product.objects.create(category=category, **products_data)
-#         return Category
+#         return category
 
 #     def to_representation(self, category):
 #         representation = super(CategorySerializer, self).to_representation(category)
 #         representation['products'] = ProductSerializer(category.product_set.all(), many=True).data
 #         return representation
-#     class Meta:
-        
-#         model = Category
-#         fields = [
-#             "name",
-#             "slug",
-#             ]
+
+ # bug = Cannot set both 'fields' and 'exclude' options on serializer CategorySerializer.
 
 class CategorySerializer(serializers.ModelSerializer):
-    
-    products = ProductSerializer(many=True)
+
+    products = ProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
-        fields = [
+        fields = (
+            "id",
             "name",
-            "slug",
-        ]
-    
-    def create(self, validated_data):
-        products_data = validated_data.pop('products')
-        category = Category.objects.all().create(**validated_data)
-        
-        for product_data in products_data:
-            Product.objects.create(category=category, **product_data)
-        return category
+            "get_absolute_url",
+            "products",
+        )
+
