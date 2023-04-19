@@ -14,19 +14,18 @@ from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
 
-class LatestProductListAPIView(
-    generics.ListAPIView):
+# class LatestProductListAPIView:
 
-    queryset = Product.objects.all()[0:4] 
-    serializer_class = ProductSerializer(many= True)
+#     queryset = Product.objects.all()[0:4] 
+#     serializer_class = ProductSerializer(many= True)
 
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+#     authentication_classes = [
+#         authentication.SessionAuthentication,
+#         TokenAuthentication
+#     ]
+#     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
-    latest_product_list_view = LatestProductListAPIView.as_view()
+#     latest_product_list_view = LatestProductListAPIView.as_view()
 
 class ProductListCreateAPIView(
     generics.ListCreateAPIView): 
@@ -42,13 +41,13 @@ class ProductListCreateAPIView(
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
-    def perform_create(self, serializer):
-        name = serializer.validated_data.get('name')
-        description = serializer.validated_data.get('description') or None
+    # def perform_create(self, serializer):
+    #     name = serializer.validated_data.get('name')
+    #     description = serializer.validated_data.get('description') or None
         
-        if description is None:
-            description = name    
-        serializer.save(user=self.request.user, description=description)
+    #     if description is None:
+    #         description = name    
+    #     serializer.save(user=self.request.user, description=description)
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
@@ -128,7 +127,7 @@ class ProductDestroyAPIView(generics.DestroyAPIView,
 
 product_destroy_view = ProductDestroyAPIView.as_view()
 
-class CategoryListCreateAPIView(generics.ListCreateAPIView):
+class CategoryCreateAPIView(generics.CreateAPIView):
     """
     create and retrive the category list 
     """
@@ -141,15 +140,15 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
-    def perform_create(self, serializer):
-        name = serializer.validated_data.get('name')
-        slug = serializer.validated_data.get('slug') or None
+    # def perform_create(self, serializer):
+    #     name = serializer.validated_data.get('name')
+    #     slug = serializer.validated_data.get('slug') or None
         
-        if slug is None:
-            slug = name 
-        serializer.save(user=self.request.user)
+    #     if slug is None:
+    #         slug = name 
+    #     serializer.save(user=self.request.user, slug=slug)
 
-category_list_create_view = CategoryListCreateAPIView.as_view()
+category_list_create_view = CategoryCreateAPIView.as_view()
 
 
 
