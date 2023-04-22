@@ -127,7 +127,7 @@ class ProductDestroyAPIView(generics.DestroyAPIView,
 
 product_destroy_view = ProductDestroyAPIView.as_view()
 
-class CategoryCreateAPIView(generics.CreateAPIView):
+class CategoryListCreateAPIView(generics.ListCreateAPIView):
     """
     create and retrive the category list 
     """
@@ -148,7 +148,7 @@ class CategoryCreateAPIView(generics.CreateAPIView):
     #         slug = name 
     #     serializer.save(user=self.request.user, slug=slug)
 
-category_list_create_view = CategoryCreateAPIView.as_view()
+category_list_create_view = CategoryListCreateAPIView.as_view()
 
 
 

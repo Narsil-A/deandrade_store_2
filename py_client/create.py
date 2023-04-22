@@ -20,10 +20,10 @@ if auth_reponse.status_code == 200:
     endpoint = "http://localhost:8000/product/"
 
 data = {
-        "category":12,
-        "name":"Labial",
+        "category":16,
+        "name":"cabello",
         "description":"Labial mate",
-        "price":5,
+        "price":6,
     }
 get_response = requests.post(endpoint, json=data)
 print(get_response.json())
