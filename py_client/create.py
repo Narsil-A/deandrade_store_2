@@ -20,6 +20,7 @@ if auth_reponse.status_code == 200:
     endpoint = "http://localhost:8000/product/"
 
 data = {
+        "category":12,
         "name":"Labial",
         "description":"Labial mate",
         "price":5,
