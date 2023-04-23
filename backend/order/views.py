@@ -9,20 +9,16 @@ from django.shortcuts import render
 
 # DRF
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework import authentication, permissions
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 
 # api models and serializers
-from store.authentication import TokenAuthentication
-from store.permissions import IsStaffEditorPermission
+from store.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 from .models import Order
 from .serializers import OrderSerializer, MyOrderSerializer
 
 @api_view(['POST'])
-@authentication_classes([authentication.TokenAuthentication]) 
-@permission_classes([permissions.IsAuthenticated])
 def checkout(request):
     serializer = OrderSerializer(data=request.data)
 
@@ -46,21 +42,18 @@ def checkout(request):
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class OrdersList(
-    APIView):
+class OrdersListAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.ListAPIView):
 
     queryset = Order.objects.all()
     serializer_class = MyOrderSerializer
-
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
-
 
     
     def get(self, request, format=None):
         orders = Order.objects.filter(user=request.user)
         serializer = MyOrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+order_list_view = OrdersListAPIView.as_view() 
