@@ -15,8 +15,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 # api models and serializers
-from product.authentication import TokenAuthentication
-from product.permissions import IsStaffEditorPermission
+from store.authentication import TokenAuthentication
+from store.permissions import IsStaffEditorPermission
 from .models import Order
 from .serializers import OrderSerializer, MyOrderSerializer
 

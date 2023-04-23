@@ -8,38 +8,33 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 # api files
-from .authentication import TokenAuthentication
-from .permissions import IsStaffEditorPermission
+from store.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
+from store.authentication import TokenAuthentication
+from store.permissions import IsStaffEditorPermission
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
 
-# class LatestProductListAPIView:
+class LatestProductListCreateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.ListCreateAPIView):
 
-#     queryset = Product.objects.all()[0:4] 
-#     serializer_class = ProductSerializer(many= True)
+    queryset = Product.objects.all()[0:4] 
+    serializer_class = ProductSerializer(many= True)
 
-#     authentication_classes = [
-#         authentication.SessionAuthentication,
-#         TokenAuthentication
-#     ]
-#     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
-#     latest_product_list_view = LatestProductListAPIView.as_view()
+latest_product_list_create_view = LatestProductListCreateAPIView.as_view()
 
 class ProductListCreateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
     generics.ListCreateAPIView): 
     """
     create and retrive the product list 
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
     # def perform_create(self, serializer):
     #     name = serializer.validated_data.get('name')
@@ -51,19 +46,15 @@ class ProductListCreateAPIView(
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.RetrieveAPIView):
     """
     To see the product list detail
     """ 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
-    
 
 product_detail_view = ProductDetailAPIView.as_view()
 
@@ -79,7 +70,10 @@ product_detail_view = ProductDetailAPIView.as_view()
 
 
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.UpdateAPIView):
 
     """
     To update items product
@@ -88,13 +82,6 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
-
 
     def perform_update(self, serializer):
         instance = serializer.save()
@@ -105,8 +92,11 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
 product_update_view = ProductUpdateAPIView.as_view()
 
 
-class ProductDestroyAPIView(generics.DestroyAPIView,
-                            ):
+class ProductDestroyAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.DestroyAPIView
+    ):
     """
     Product delete a item
 
@@ -115,11 +105,7 @@ class ProductDestroyAPIView(generics.DestroyAPIView,
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+
 
     def perform_destroy(self, instance):
         # instance 
@@ -127,18 +113,15 @@ class ProductDestroyAPIView(generics.DestroyAPIView,
 
 product_destroy_view = ProductDestroyAPIView.as_view()
 
-class CategoryListCreateAPIView(generics.ListCreateAPIView):
+class CategoryListCreateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.ListCreateAPIView):
     """
     create and retrive the category list 
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        TokenAuthentication
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
     # def perform_create(self, serializer):
     #     name = serializer.validated_data.get('name')

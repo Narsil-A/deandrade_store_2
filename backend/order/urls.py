@@ -7,5 +7,5 @@ from order import views
 urlpatterns = [
     path('auth/', obtain_auth_token),
     path('checkout/', views.checkout),
-    path('orders/', views.OrdersList.as_view()),  
+    path('', views.OrdersList.as_view()),  
 ]
