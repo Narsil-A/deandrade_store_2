@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from rest_framework.reverse import reverse
 from .models import Category, Product
 
@@ -6,6 +7,7 @@ from .models import Category, Product
 Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes
 
 """
+User = get_user_model()
 class ProductSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(
             view_name='product-detail',
@@ -15,7 +17,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
         model = Product
         fields = (
-            "user",
             "category",
             "url",
             "pk",

@@ -14,7 +14,9 @@ from store.permissions import IsStaffEditorPermission
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 class LatestProductListCreateAPIView(
     UserQuerySetMixin,
     StaffEditorPermissionMixin,
@@ -36,13 +38,13 @@ class ProductListCreateAPIView(
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
-    # def perform_create(self, serializer):
-    #     name = serializer.validated_data.get('name')
-    #     description = serializer.validated_data.get('description') or None
+    def perform_create(self, serializer):
+        name = serializer.validated_data.get('name')
+        description = serializer.validated_data.get('description') or None
         
-    #     if description is None:
-    #         description = name    
-    #     serializer.save(user=self.request.user, description=description)
+        if description is None:
+            description = name    
+        serializer.save(user=self.request.user, description=description)
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
