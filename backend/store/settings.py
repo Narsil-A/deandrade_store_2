@@ -17,6 +17,7 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -47,10 +48,10 @@ INSTALLED_APPS = [
 
     # internal apps
     'product',  # api where will create the products and categorys
-    'order', # api where the user creates the order of the products
-    
-
+    'order', # api where the user creates the order of the product
+    'accounts', # users api 
 ]
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,12 +1,11 @@
 from django.conf import settings
 from django.db import models
-from product.models import Product #item is conected to product
+from product.models import Product 
 
 
 
-User = settings.AUTH_USER_MODEL # auth.User
+
 class Order(models.Model):
-    user = models.ForeignKey(User, default=1, null=True, on_delete=models.SET_NULL)
     first_name = models.CharField(max_length=100) 
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)

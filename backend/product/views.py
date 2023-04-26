@@ -1,25 +1,13 @@
 # DRF
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework import authentication, generics, permissions
-from rest_framework.response import Response
-
-# Django
-from django.shortcuts import get_object_or_404
-from django.http import Http404
+# from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import generics
+# from rest_framework.response import Response
 
 # api files
-from store.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
-from store.authentication import TokenAuthentication
-from store.permissions import IsStaffEditorPermission
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 class LatestProductListCreateAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.ListCreateAPIView):
 
     queryset = Product.objects.all()[0:4] 
@@ -29,8 +17,6 @@ class LatestProductListCreateAPIView(
 latest_product_list_create_view = LatestProductListCreateAPIView.as_view()
 
 class ProductListCreateAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.ListCreateAPIView): 
     """
     create and retrive the product list 
@@ -44,13 +30,11 @@ class ProductListCreateAPIView(
         
         if description is None:
             description = name    
-        serializer.save(user=self.request.user, description=description)
+        serializer.save(description=description)
 
 product_list_create_view = ProductListCreateAPIView.as_view()
 
 class ProductDetailAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.RetrieveAPIView):
     """
     To see the product list detail
@@ -60,21 +44,7 @@ class ProductDetailAPIView(
 
 product_detail_view = ProductDetailAPIView.as_view()
 
-# class ProductListAPIView(generics.ListAPIView): # get method
-    
-#     # not gonna use this method 
-    
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-#     # lookup_field = 'pk' primary key
-
-# product_list_view = ProductListAPIView.as_view()
-
-
-
 class ProductUpdateAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.UpdateAPIView):
 
     """
@@ -95,8 +65,6 @@ product_update_view = ProductUpdateAPIView.as_view()
 
 
 class ProductDestroyAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.DestroyAPIView
     ):
     """
@@ -116,8 +84,6 @@ class ProductDestroyAPIView(
 product_destroy_view = ProductDestroyAPIView.as_view()
 
 class CategoryListCreateAPIView(
-    UserQuerySetMixin,
-    StaffEditorPermissionMixin,
     generics.ListCreateAPIView):
     """
     create and retrive the category list 
